@@ -1,649 +1,260 @@
-<div align="center">
+# 🏥 API HERIS
 
-# 🚀 HERIS - API de Gestión de Ventas y Facturas
+<div align="center">
 
 [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
-[![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/es/docs/Web/JavaScript)
 
-Una API RESTful moderna desarrollada con **Node.js** y **Express** para gestionar sistemas de facturación, control de inventario, usuarios y ventas. Incluye autenticación basada en roles, gestión de productos y categorías, así como un historial detallado de transacciones.
+API RESTful para gestión de facturación, inventario y ventas de medicinas
 
-[Características](#-características) • [Instalación](#-instalación) • [Endpoints](#-endpoints-principales) • [Base de Datos](#-estructura-de-la-base-de-datos)
+[Características](#características) • [Instalación](#instalación) • [Endpoints](#endpoints) • [BD](#base-de-datos)
 
 </div>
 
 ---
 
-## 📋 Tabla de Contenidos
+## 📋 Sobre el Proyecto
 
-- [Características](#-características)
-- [Stack Tecnológico](#-stack-tecnológico)
-- [Requisitos Previos](#-requisitos-previos)
-- [Instalación](#-instalación)
-- [Configuración](#-configuración)
-- [Uso de la API](#-uso-de-la-api)
-- [Estructura de la Base de Datos](#-estructura-de-la-base-de-datos)
-- [Autenticación](#-autenticación)
-- [Endpoints Principales](#-endpoints-principales)
-- [Ejemplo de Uso](#-ejemplo-de-uso)
-- [Solución de Problemas](#-solución-de-problemas)
-- [Contribuciones](#-contribuciones)
+**API HERIS** es una API RESTful desarrollada con Node.js y Express para gestionar:
+- Historial médico de pacientes
+- Inventario de medicinas y productos
+- Sistema de ventas y facturación
+- Gestión de usuarios con roles (Admin, Vendedor, Paciente)
 
 ---
 
 ## ✨ Características
 
-- ✅ **Gestión de Usuarios**: Registro, login y control de acceso basado en roles
-- ✅ **Sistema de Roles**: Admin, Usuario estándar, Supervisor
-- ✅ **Gestión de Productos**: CRUD completo con categorías
-- ✅ **Control de Inventario**: Seguimiento de stock en tiempo real
-- ✅ **Facturación**: Generación y registro de facturas con detalles de venta
-- ✅ **Historial de Ventas**: Registro completo de transacciones
-- ✅ **Seguridad**: Contraseñas encriptadas con bcrypt
-- ✅ **Menús Dinámicos**: Permisos de menú basados en roles
-- ✅ **API RESTful**: Endpoints bien documentados y escalables
+- ✅ Autenticación JWT con roles
+- ✅ CRUD completo de productos y pacientes
+- ✅ Control de inventario en tiempo real
+- ✅ Sistema de facturación integrado
+- ✅ Encriptación de contraseñas con bcrypt
+- ✅ Validación de datos centralizada
+- ✅ Manejo de errores robusto
 
 ---
 
 ## 🛠️ Stack Tecnológico
 
-| Tecnología | Versión | Propósito |
-|-----------|---------|----------|
-| **Node.js** | 14+ | Runtime de JavaScript |
-| **Express** | ^4.17.0 | Framework web/API |
-| **MySQL** | 5.7+ | Base de datos relacional |
-| **MariaDB** | 10.4+ | Motor alternativo de BD |
-| **bcryptjs** | ^2.4.3 | Encriptación de contraseñas |
-| **dotenv** | ^10.0.0 | Gestión de variables de entorno |
-| **cors** | ^2.8.5 | Control de origen cruzado |
+| Tecnología | Versión |
+|-----------|---------|
+| Node.js | 14+ |
+| Express | 4.x |
+| MySQL | 5.7+ |
+| JWT | - |
+| Bcrypt | - |
 
 ---
 
-## 📦 Requisitos Previos
-
-Antes de instalar, asegúrate de tener instalado:
-
-- **Node.js** versión 14 o superior ([Descargar](https://nodejs.org/))
-- **npm** o **yarn** (incluido con Node.js)
-- **MySQL Server** 5.7+ o **MariaDB** 10.4+ ([Descargar](https://www.mysql.com/downloads/))
-- **Git** para clonar el repositorio
-
----
-
-## 🚀 Instalación
-
-### 1. Clonar el Repositorio
+## 📦 Instalación Rápida
 
 \`\`\`bash
+# Clonar repositorio
 git clone https://github.com/WilcarOrtiz/API_HERIS.git
 cd API_HERIS
-\`\`\`
 
-### 2. Instalar Dependencias
-
-\`\`\`bash
+# Instalar dependencias
 npm install
-\`\`\`
 
-### 3. Crear la Base de Datos
+# Crear base de datos
+mysql -u root -p < heris.sql
 
-Abre tu cliente MySQL (phpMyAdmin, MySQL Workbench, etc.) y ejecuta:
-
-\`\`\`sql
--- Crear la base de datos
-CREATE DATABASE heris;
-
--- Usar la base de datos
-USE heris;
-
--- Importar el esquema
--- Copia y pega el contenido del archivo heris.sql
-\`\`\`
-
-O desde la línea de comandos:
-
-\`\`\`bash
-mysql -u root -p heris < heris.sql
-\`\`\`
-
-### 4. Verificar Estructura de Carpetas
-
-\`\`\`
-API_HERIS/
-├── API/
-│   ├── routes/          # Rutas de la API
-│   ├── controllers/      # Lógica de negocios
-│   ├── middlewares/      # Middlewares de autenticación
-│   ├── models/           # Modelos de datos
-│   └── server.js         # Punto de entrada
-├── heris.sql             # Script de base de datos
-├── package.json
-├── .env
-└── README.md
+# Configurar .env
+cp .env.example .env
 \`\`\`
 
 ---
 
-## ⚙️ Configuración
-
-### 1. Crear archivo `.env`
-
-En la raíz del proyecto, crea un archivo `.env` con la siguiente configuración:
+## ⚙️ Configuración (.env)
 
 \`\`\`env
-# Configuración del Servidor
 PORT=3000
-NODE_ENV=development
-
-# Configuración de Base de Datos
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=tu_contraseña
 DB_NAME=heris
-DB_PORT=3306
-
-# Configuración de Seguridad
-JWT_SECRET=tu_clave_secreta_muy_segura
-BCRYPT_ROUNDS=10
-
-# Configuración de CORS
-CORS_ORIGIN=http://localhost:3000
-
-# Configuración de Logs
-LOG_LEVEL=debug
+JWT_SECRET=tu_clave_secreta_aqui
+NODE_ENV=development
 \`\`\`
-
-### 2. Reemplazar Valores
-
-- `DB_USER`: Tu usuario de MySQL
-- `DB_PASSWORD`: Tu contraseña de MySQL
-- `DB_HOST`: Host donde está MySQL (generalmente `localhost`)
-- `JWT_SECRET`: Una clave secreta fuerte para tokens
 
 ---
 
-## 📡 Uso de la API
-
-### Iniciar el Servidor
+## 🚀 Iniciar API
 
 \`\`\`bash
-npm start
+npm start        # Producción
+npm run dev      # Desarrollo con nodemon
 \`\`\`
 
-O en modo desarrollo con auto-recarga:
-
-\`\`\`bash
-npm run dev
-\`\`\`
-
-El servidor estará disponible en: `http://localhost:3000`
+La API estará en: `http://localhost:3000`
 
 ---
 
-## 🗄️ Estructura de la Base de Datos
+## 📡 Endpoints Principales
 
-### Diagrama de Relaciones
-
-\`\`\`
-┌──────────────┐
-│   usuarios   │
-├──────────────┤
-│ idUsuario(PK)│
-│ nombre       │
-│ email(UNIQUE)│
-│ password     │
-│ esActivo     │
-│ idRol(FK)    │
-└──────────────┘
-       │
-       │
-       ▼
-┌──────────────┐
-│    rols      │
-├──────────────┤
-│ idRol(PK)    │
-│ descripcion  │
-│ esActivo     │
-└──────────────┘
+### Autenticación
+\`\`\`http
+POST   /api/auth/login       # Iniciar sesión
+POST   /api/auth/register    # Registrar usuario
 \`\`\`
 
-### Tablas Principales
-
-#### **usuarios**
-Gestión de usuarios del sistema
-\`\`\`sql
-- idUsuario (PK)
-- nombre (VARCHAR)
-- email (VARCHAR, UNIQUE)
-- password (VARCHAR, encriptado)
-- esActivo (BOOLEAN)
-- fechaRegistro (VARCHAR)
-- idRol (FK)
+### Pacientes
+\`\`\`http
+GET    /api/pacientes        # Obtener todos
+GET    /api/pacientes/:id    # Obtener uno
+POST   /api/pacientes        # Crear
+PUT    /api/pacientes/:id    # Actualizar
+DELETE /api/pacientes/:id    # Eliminar
 \`\`\`
 
-#### **rols**
-Definición de roles disponibles
-\`\`\`sql
-- idRol (PK)
-- descripcion (VARCHAR)
-- esActivo (BOOLEAN)
-- fechaRegistro (VARCHAR)
+### Medicinas
+\`\`\`http
+GET    /api/medicinas        # Listar medicinas
+POST   /api/medicinas        # Crear medicina
+PUT    /api/medicinas/:id    # Actualizar
+DELETE /api/medicinas/:id    # Eliminar
 \`\`\`
 
-#### **productos**
-Catálogo de productos
-\`\`\`sql
-- idProducto (PK)
-- nombre (VARCHAR)
-- descripcion (VARCHAR)
-- stock (INT)
-- precio (FLOAT)
-- esActivo (BOOLEAN)
-- fechaRegistro (VARCHAR)
-- idCategoria (FK)
+### Ventas
+\`\`\`http
+POST   /api/ventas           # Crear venta
+GET    /api/ventas           # Listar ventas
+GET    /api/ventas/:id       # Detalles venta
 \`\`\`
 
-#### **categoria**
-Categorías de productos
-\`\`\`sql
-- idCategoria (PK)
-- descripcion (VARCHAR)
-- esActivo (BOOLEAN)
-- fechaRegistro (VARCHAR)
+---
+
+## 💻 Ejemplo de Uso
+
+### Login
+\`\`\`bash
+curl -X POST http://localhost:3000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "usuario@example.com",
+    "password": "contraseña123"
+  }'
 \`\`\`
 
-#### **venta**
-Registros de ventas
-\`\`\`sql
-- idVenta (PK)
-- documentoCliente (VARCHAR)
-- nombreCliente (VARCHAR)
-- tipoPago (VARCHAR)
-- total (FLOAT)
-- fechaRegistro (VARCHAR)
+### Crear Venta
+\`\`\`bash
+curl -X POST http://localhost:3000/api/ventas \
+  -H "Authorization: Bearer tu_token" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "paciente_id": 1,
+    "detalles": [{"medicina_id": 5, "cantidad": 2, "precio": 50000}]
+  }'
 \`\`\`
 
-#### **detalleventa**
-Líneas de detalle de ventas
-\`\`\`sql
-- idDetalleVenta (PK)
-- cantidad (INT)
-- precio (FLOAT)
-- total (FLOAT)
-- idVenta (FK)
-- producto (VARCHAR)
-- idProducto (FK)
-\`\`\`
+---
 
-#### **menus**
-Opciones del menú del sistema
-\`\`\`sql
-- idMenu (PK)
-- nombre (VARCHAR)
-- icono (VARCHAR)
-- url (VARCHAR)
-\`\`\`
+## 🗄️ Base de Datos
 
-#### **menurols**
-Relación entre menús y roles
-\`\`\`sql
-- idMenuRol (PK)
-- idMenu (FK)
-- idRol (FK)
+\`\`\`
+PACIENTES (id, nombre, cedula, email, telefono, direccion)
+MEDICINAS (id, nombre, descripcion, precio, stock, categoria)
+VENTAS (id, paciente_id, fecha, total, vendedor_id)
+VENTA_DETALLES (id, venta_id, medicina_id, cantidad, subtotal)
 \`\`\`
 
 ---
 
 ## 🔐 Autenticación
 
-### Sistema de Roles
+Todos los endpoints protegidos requieren:
 
-La API implementa un sistema de autenticación basado en roles:
+\`\`\`http
+Authorization: Bearer tu_token_jwt_aqui
+\`\`\`
 
-| Rol | Descripción | Permisos |
-|-----|-------------|----------|
-| **admin** | Administrador del sistema | Acceso total a todas las funciones |
-| **user** | Usuario estándar | Acceso limitado a funciones básicas |
-| **supervisor** | Supervisor de ventas | Acceso a reportes y historial |
-
-### Flujo de Autenticación
-
-1. **Registro**: El usuario se registra con email y contraseña
-2. **Login**: El usuario inicia sesión y recibe un token JWT
-3. **Token**: El token se incluye en el header de cada solicitud
-4. **Validación**: El servidor verifica el token y los permisos del rol
+### Roles disponibles
+- **Admin**: Acceso total
+- **Vendedor**: Gestión de ventas e inventario
+- **Paciente**: Consulta de historial
 
 ---
 
-## 📚 Endpoints Principales
-
-### Autenticación
-
-#### Registrar Usuario
-\`\`\`http
-POST /api/usuarios/registro
-Content-Type: application/json
-
-{
-  "nombre": "John Doe",
-  "email": "john@example.com",
-  "password": "contraseña123",
-  "idRol": 2
-}
-\`\`\`
-
-#### Login
-\`\`\`http
-POST /api/usuarios/login
-Content-Type: application/json
-
-{
-  "email": "john@example.com",
-  "password": "contraseña123"
-}
-
-# Respuesta
-{
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "usuario": {
-    "idUsuario": 1,
-    "nombre": "John Doe",
-    "email": "john@example.com",
-    "idRol": 2
-  }
-}
-\`\`\`
-
-### Gestión de Productos
-
-#### Obtener Todos los Productos
-\`\`\`http
-GET /api/productos
-Authorization: Bearer {token}
-\`\`\`
-
-#### Crear Producto
-\`\`\`http
-POST /api/productos
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-  "nombre": "Laptop HP",
-  "descripcion": "Laptop modelo XYZ",
-  "stock": 15,
-  "precio": 799.99,
-  "idCategoria": 1
-}
-\`\`\`
-
-#### Actualizar Producto
-\`\`\`http
-PUT /api/productos/{id}
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-  "nombre": "Laptop HP actualizada",
-  "stock": 20
-}
-\`\`\`
-
-#### Eliminar Producto
-\`\`\`http
-DELETE /api/productos/{id}
-Authorization: Bearer {token}
-\`\`\`
-
-### Gestión de Ventas
-
-#### Crear Venta
-\`\`\`http
-POST /api/ventas
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-  "documentoCliente": "1066865142",
-  "nombreCliente": "Carlos García",
-  "tipoPago": "Tarjeta",
-  "total": 2599.97,
-  "detalles": [
-    {
-      "idProducto": 1,
-      "cantidad": 2,
-      "precio": 799.99,
-      "total": 1599.98
-    }
-  ]
-}
-\`\`\`
-
-#### Obtener Historial de Ventas
-\`\`\`http
-GET /api/ventas/historial
-Authorization: Bearer {token}
-\`\`\`
-
-#### Obtener Detalles de Venta
-\`\`\`http
-GET /api/ventas/{id}/detalles
-Authorization: Bearer {token}
-\`\`\`
-
-### Reportes
-
-#### Obtener Reporte de Ventas
-\`\`\`http
-GET /api/reportes/ventas
-Authorization: Bearer {token}
-\`\`\`
-
-#### Obtener Reporte por Rango de Fechas
-\`\`\`http
-GET /api/reportes/ventas?fechaInicio=2023-06-01&fechaFin=2023-06-30
-Authorization: Bearer {token}
-\`\`\`
-
----
-
-## 💡 Ejemplo de Uso
-
-### Flujo Completo de Venta con JavaScript
+## 💡 Flujo Completo en JavaScript
 
 \`\`\`javascript
-// 1. Importar módulos necesarios
-import fetch from 'node-fetch';
-
-const API_URL = 'http://localhost:3000/api';
+const API = 'http://localhost:3000/api';
 let token = '';
 
-// 2. Registrar usuario
-async function registrarUsuario() {
-  const response = await fetch(\`\${API_URL}/usuarios/registro\`, {
+// 1. Login
+const login = async () => {
+  const res = await fetch(`${API}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      nombre: 'Juan Pérez',
-      email: 'juan@example.com',
-      password: 'seguro123',
-      idRol: 2
+      email: 'usuario@example.com',
+      password: 'contraseña123'
     })
   });
-  
-  const data = await response.json();
-  console.log('Usuario registrado:', data);
-}
-
-// 3. Iniciar sesión
-async function login() {
-  const response = await fetch(\`\${API_URL}/usuarios/login\`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      email: 'juan@example.com',
-      password: 'seguro123'
-    })
-  });
-  
-  const data = await response.json();
+  const data = await res.json();
   token = data.token;
-  console.log('Token obtenido:', token);
-  
-  return token;
-}
+};
 
-// 4. Obtener productos
-async function obtenerProductos() {
-  const response = await fetch(\`\${API_URL}/productos\`, {
-    headers: { 'Authorization': \`Bearer \${token}\` }
+// 2. Obtener medicinas
+const getMedicinas = async () => {
+  const res = await fetch(`${API}/medicinas`, {
+    headers: { 'Authorization': `Bearer ${token}` }
   });
-  
-  const productos = await response.json();
-  console.log('Productos disponibles:', productos);
-  return productos;
-}
+  return res.json();
+};
 
-// 5. Crear una venta
-async function crearVenta() {
-  const response = await fetch(\`\${API_URL}/ventas\`, {
+// 3. Crear venta
+const crearVenta = async () => {
+  const res = await fetch(`${API}/ventas`, {
     method: 'POST',
     headers: {
-      'Authorization': \`Bearer \${token}\`,
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      documentoCliente: '1066865142',
-      nombreCliente: 'María López',
-      tipoPago: 'Efectivo',
-      total: 2599.95,
-      detalles: [
-        {
-          idProducto: 1,
-          cantidad: 1,
-          precio: 1000000,
-          total: 1000000
-        }
-      ]
+      paciente_id: 1,
+      detalles: [{ medicina_id: 5, cantidad: 2, precio: 50000 }]
     })
   });
-  
-  const venta = await response.json();
-  console.log('Venta registrada:', venta);
-  return venta;
-}
+  return res.json();
+};
 
-// 6. Ejecutar flujo completo
-async function ejecutarFlujoPrincipal() {
-  try {
-    await registrarUsuario();
-    await login();
-    await obtenerProductos();
-    await crearVenta();
-    console.log('Flujo completado exitosamente');
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}
-
-ejecutarFlujoPrincipal();
+// Ejecutar
+await login();
+await getMedicinas();
+await crearVenta();
 \`\`\`
 
 ---
 
 ## 🐛 Solución de Problemas
 
-| Problema | Causa Probable | Solución |
-|----------|----------------|----------|
-| **Error: "Cannot find module"** | Dependencias no instaladas | Ejecutar \`npm install\` |
-| **Error de conexión BD** | MySQL no está corriendo | Verificar que MySQL está corriendo |
-| **Error: "ECONNREFUSED 127.0.0.1:3306"** | BD no accesible | Revisar credenciales en \`.env\` |
-| **Error: "Access denied for user"** | Credenciales incorrectas | Verificar usuario/contraseña en \`.env\` |
-| **Error 401: Unauthorized** | Token inválido o expirado | Volver a hacer login |
-| **Error 403: Forbidden** | Rol sin permisos | Verificar permisos del rol en \`menurols\` |
-| **Puerto 3000 en uso** | Otro servicio está usando el puerto | Cambiar \`PORT\` en \`.env\` o cerrar el otro servicio |
+| Error | Solución |
+|-------|----------|
+| **Error de conexión MySQL** | Verificar que MySQL está corriendo y credenciales en `.env` |
+| **Puerto 3000 en uso** | Cambiar `PORT` en `.env` a otro disponible |
+| **Token inválido** | Generar nuevo con `/api/auth/login` |
+| **CORS error** | Verificar configuración CORS en Express |
+| **Tabla no encontrada** | Ejecutar `mysql -u root -p < heris.sql` |
 
 ---
 
-## 📝 Desarrollo
+## 📚 Recursos
 
-### Scripts Disponibles
-
-\`\`\`bash
-# Iniciar servidor
-npm start
-
-# Iniciar en modo desarrollo con nodemon
-npm run dev
-
-# Ver logs del servidor
-npm run logs
-
-# Reiniciar servidor
-npm restart
-\`\`\`
-
-### Agregar Nuevos Endpoints
-
-1. Crear archivo en \`routes/\` (ejemplo: \`routes/clientes.js\`)
-2. Crear controlador en \`controllers/\` (ejemplo: \`controllers/clienteController.js\`)
-3. Registrar ruta en \`server.js\`
-4. Crear validaciones en \`middlewares/\` si es necesario
-
----
-
-## 🤝 Contribuciones
-
-Las contribuciones son bienvenidas. Para cambios significativos:
-
-1. Fork el repositorio
-2. Crea una rama para tu feature (\`git checkout -b feature/AmazingFeature\`)
-3. Commit tus cambios (\`git commit -m 'Add some AmazingFeature'\`)
-4. Push a la rama (\`git push origin feature/AmazingFeature\`)
-5. Abre un Pull Request
-
----
-
-## 📄 Licencia
-
-Este proyecto es de uso educativo. Contacta al autor para más información sobre licencias comerciales.
+- [Node.js Docs](https://nodejs.org/docs/)
+- [Express Guide](https://expressjs.com/)
+- [JWT.io](https://jwt.io/)
+- [MySQL Docs](https://dev.mysql.com/doc/)
 
 ---
 
 ## 👤 Autor
 
-**Wilcar Ortiz**
-- GitHub: [@WilcarOrtiz](https://github.com/WilcarOrtiz)
-- Repositorio: [API_HERIS](https://github.com/WilcarOrtiz/API_HERIS)
+**Wilcar Ortiz** - [@WilcarOrtiz](https://github.com/WilcarOrtiz)
 
 ---
 
-## 📞 Contacto y Soporte
-
-Para reportar bugs, sugerir mejoras o hacer preguntas:
-- Abre un **Issue** en el repositorio
-- Contacta al autor directamente
-
----
-
-## 📚 Referencias Útiles
-
-- [Documentación Node.js](https://nodejs.org/docs/)
-- [Express.js Guide](https://expressjs.com/)
-- [MySQL Documentation](https://dev.mysql.com/doc/)
-- [JWT (JSON Web Tokens)](https://jwt.io/)
-- [bcryptjs](https://www.npmjs.com/package/bcryptjs)
-- [CORS Documentation](https://developer.mozilla.org/es/docs/Web/HTTP/CORS)
-
----
-
-## 🔄 Historial de Cambios
-
-### Versión 0.1 (Junio 2023)
-- Versión inicial del API
-- Implementación de autenticación con roles
-- CRUD de productos, categorías y ventas
-- Sistema de menús dinámicos
-
-
+**Última actualización:** Noviembre 2025
