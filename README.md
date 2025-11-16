@@ -1,37 +1,48 @@
-# HERIS - API de Gestión de Ventas y Facturas
+<div align="center">
+
+# 🚀 HERIS - API de Gestión de Ventas y Facturas
+
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+[![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/es/docs/Web/JavaScript)
 
 Una API RESTful moderna desarrollada con **Node.js** y **Express** para gestionar sistemas de facturación, control de inventario, usuarios y ventas. Incluye autenticación basada en roles, gestión de productos y categorías, así como un historial detallado de transacciones.
+
+[Características](#-características) • [Instalación](#-instalación) • [Endpoints](#-endpoints-principales) • [Base de Datos](#-estructura-de-la-base-de-datos)
+
+</div>
 
 ---
 
 ## 📋 Tabla de Contenidos
 
-- [Características](#características)
-- [Stack Tecnológico](#stack-tecnológico)
-- [Requisitos Previos](#requisitos-previos)
-- [Instalación](#instalación)
-- [Configuración](#configuración)
-- [Uso de la API](#uso-de-la-api)
-- [Estructura de la Base de Datos](#estructura-de-la-base-de-datos)
-- [Autenticación](#autenticación)
-- [Endpoints Principales](#endpoints-principales)
-- [Ejemplo de Uso](#ejemplo-de-uso)
-- [Solución de Problemas](#solución-de-problemas)
-- [Contribuciones](#contribuciones)
+- [Características](#-características)
+- [Stack Tecnológico](#-stack-tecnológico)
+- [Requisitos Previos](#-requisitos-previos)
+- [Instalación](#-instalación)
+- [Configuración](#-configuración)
+- [Uso de la API](#-uso-de-la-api)
+- [Estructura de la Base de Datos](#-estructura-de-la-base-de-datos)
+- [Autenticación](#-autenticación)
+- [Endpoints Principales](#-endpoints-principales)
+- [Ejemplo de Uso](#-ejemplo-de-uso)
+- [Solución de Problemas](#-solución-de-problemas)
+- [Contribuciones](#-contribuciones)
 
 ---
 
 ## ✨ Características
 
-- **Gestión de Usuarios**: Registro, login y control de acceso basado en roles
-- **Sistema de Roles**: Admin, Usuario estándar, Supervisor
-- **Gestión de Productos**: CRUD completo con categorías
-- **Control de Inventario**: Seguimiento de stock en tiempo real
-- **Facturación**: Generación y registro de facturas con detalles de venta
-- **Historial de Ventas**: Registro completo de transacciones
-- **Seguridad**: Contraseñas encriptadas con bcrypt
-- **Menús Dinámicos**: Permisos de menú basados en roles
-- **API RESTful**: Endpoints bien documentados y escalables
+- ✅ **Gestión de Usuarios**: Registro, login y control de acceso basado en roles
+- ✅ **Sistema de Roles**: Admin, Usuario estándar, Supervisor
+- ✅ **Gestión de Productos**: CRUD completo con categorías
+- ✅ **Control de Inventario**: Seguimiento de stock en tiempo real
+- ✅ **Facturación**: Generación y registro de facturas con detalles de venta
+- ✅ **Historial de Ventas**: Registro completo de transacciones
+- ✅ **Seguridad**: Contraseñas encriptadas con bcrypt
+- ✅ **Menús Dinámicos**: Permisos de menú basados en roles
+- ✅ **API RESTful**: Endpoints bien documentados y escalables
 
 ---
 
@@ -171,6 +182,31 @@ El servidor estará disponible en: `http://localhost:3000`
 ---
 
 ## 🗄️ Estructura de la Base de Datos
+
+### Diagrama de Relaciones
+
+\`\`\`
+┌──────────────┐
+│   usuarios   │
+├──────────────┤
+│ idUsuario(PK)│
+│ nombre       │
+│ email(UNIQUE)│
+│ password     │
+│ esActivo     │
+│ idRol(FK)    │
+└──────────────┘
+       │
+       │
+       ▼
+┌──────────────┐
+│    rols      │
+├──────────────┤
+│ idRol(PK)    │
+│ descripcion  │
+│ esActivo     │
+└──────────────┘
+\`\`\`
 
 ### Tablas Principales
 
@@ -425,7 +461,7 @@ let token = '';
 
 // 2. Registrar usuario
 async function registrarUsuario() {
-  const response = await fetch(`${API_URL}/usuarios/registro`, {
+  const response = await fetch(\`\${API_URL}/usuarios/registro\`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -442,7 +478,7 @@ async function registrarUsuario() {
 
 // 3. Iniciar sesión
 async function login() {
-  const response = await fetch(`${API_URL}/usuarios/login`, {
+  const response = await fetch(\`\${API_URL}/usuarios/login\`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -460,8 +496,8 @@ async function login() {
 
 // 4. Obtener productos
 async function obtenerProductos() {
-  const response = await fetch(`${API_URL}/productos`, {
-    headers: { 'Authorization': `Bearer ${token}` }
+  const response = await fetch(\`\${API_URL}/productos\`, {
+    headers: { 'Authorization': \`Bearer \${token}\` }
   });
   
   const productos = await response.json();
@@ -471,10 +507,10 @@ async function obtenerProductos() {
 
 // 5. Crear una venta
 async function crearVenta() {
-  const response = await fetch(`${API_URL}/ventas`, {
+  const response = await fetch(\`\${API_URL}/ventas\`, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${token}`,
+      'Authorization': \`Bearer \${token}\`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
@@ -520,13 +556,13 @@ ejecutarFlujoPrincipal();
 
 | Problema | Causa Probable | Solución |
 |----------|----------------|----------|
-| **Error: "Cannot find module"** | Dependencias no instaladas | Ejecutar `npm install` |
+| **Error: "Cannot find module"** | Dependencias no instaladas | Ejecutar \`npm install\` |
 | **Error de conexión BD** | MySQL no está corriendo | Verificar que MySQL está corriendo |
-| **Error: "ECONNREFUSED 127.0.0.1:3306"** | BD no accesible | Revisar credenciales en `.env` |
-| **Error: "Access denied for user"** | Credenciales incorrectas | Verificar usuario/contraseña en `.env` |
+| **Error: "ECONNREFUSED 127.0.0.1:3306"** | BD no accesible | Revisar credenciales en \`.env\` |
+| **Error: "Access denied for user"** | Credenciales incorrectas | Verificar usuario/contraseña en \`.env\` |
 | **Error 401: Unauthorized** | Token inválido o expirado | Volver a hacer login |
-| **Error 403: Forbidden** | Rol sin permisos | Verificar permisos del rol en `menurols` |
-| **Puerto 3000 en uso** | Otro servicio está usando el puerto | Cambiar `PORT` en `.env` o cerrar el otro servicio |
+| **Error 403: Forbidden** | Rol sin permisos | Verificar permisos del rol en \`menurols\` |
+| **Puerto 3000 en uso** | Otro servicio está usando el puerto | Cambiar \`PORT\` en \`.env\` o cerrar el otro servicio |
 
 ---
 
@@ -550,10 +586,10 @@ npm restart
 
 ### Agregar Nuevos Endpoints
 
-1. Crear archivo en `routes/` (ejemplo: `routes/clientes.js`)
-2. Crear controlador en `controllers/` (ejemplo: `controllers/clienteController.js`)
-3. Registrar ruta en `server.js`
-4. Crear validaciones en `middlewares/` si es necesario
+1. Crear archivo en \`routes/\` (ejemplo: \`routes/clientes.js\`)
+2. Crear controlador en \`controllers/\` (ejemplo: \`controllers/clienteController.js\`)
+3. Registrar ruta en \`server.js\`
+4. Crear validaciones en \`middlewares/\` si es necesario
 
 ---
 
@@ -562,9 +598,9 @@ npm restart
 Las contribuciones son bienvenidas. Para cambios significativos:
 
 1. Fork el repositorio
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
+2. Crea una rama para tu feature (\`git checkout -b feature/AmazingFeature\`)
+3. Commit tus cambios (\`git commit -m 'Add some AmazingFeature'\`)
+4. Push a la rama (\`git push origin feature/AmazingFeature\`)
 5. Abre un Pull Request
 
 ---
@@ -609,3 +645,5 @@ Para reportar bugs, sugerir mejoras o hacer preguntas:
 - Implementación de autenticación con roles
 - CRUD de productos, categorías y ventas
 - Sistema de menús dinámicos
+
+
