@@ -13,7 +13,6 @@ API RESTful para gestión de facturación, inventario y ventas de medicinas
 
 </div>
 
----
 
 ## 📋 Sobre el Proyecto
 
@@ -23,7 +22,6 @@ API RESTful para gestión de facturación, inventario y ventas de medicinas
 - Sistema de ventas y facturación
 - Gestión de usuarios con roles (Admin, Vendedor, Paciente)
 
----
 
 ## ✨ Características
 
@@ -35,7 +33,6 @@ API RESTful para gestión de facturación, inventario y ventas de medicinas
 - ✅ Validación de datos centralizada
 - ✅ Manejo de errores robusto
 
----
 
 ## 🛠️ Stack Tecnológico
 
@@ -47,188 +44,58 @@ API RESTful para gestión de facturación, inventario y ventas de medicinas
 | JWT | - |
 | Bcrypt | - |
 
----
 
 ## 📦 Instalación Rápida
 
-\`\`\`bash
-# Clonar repositorio
+1. Clonar repositorio
 git clone https://github.com/WilcarOrtiz/API_HERIS.git
 cd API_HERIS
 
-# Instalar dependencias
+2. Instalar dependencias
 npm install
 
-# Crear base de datos
+3. Crear base de datos
 mysql -u root -p < heris.sql
 
-# Configurar .env
+4.  Configurar .env
 cp .env.example .env
-\`\`\`
-
 ---
+
+Variables de entorno necesarias para ejecutar el proyecto:
 
 ## ⚙️ Configuración (.env)
 
-\`\`\`env
+```env
 PORT=3000
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=tu_contraseña
 DB_NAME=heris
-JWT_SECRET=tu_clave_secreta_aqui
+JWT_SECRET=tu_clave_secreta
 NODE_ENV=development
-\`\`\`
-
+```
 ---
 
-## 🚀 Iniciar API
+## 🚀 Iniciar la API
+Comandos disponibles:
 
-\`\`\`bash
-npm start        # Producción
-npm run dev      # Desarrollo con nodemon
-\`\`\`
+```bash
+# Ejecutar en producción
+npm start
+
+# Ejecutar en desarrollo con nodemon
+npm run dev
+```
 
 La API estará en: `http://localhost:3000`
-
 ---
-
-## 📡 Endpoints Principales
-
-### Autenticación
-\`\`\`http
-POST   /api/auth/login       # Iniciar sesión
-POST   /api/auth/register    # Registrar usuario
-\`\`\`
-
-### Pacientes
-\`\`\`http
-GET    /api/pacientes        # Obtener todos
-GET    /api/pacientes/:id    # Obtener uno
-POST   /api/pacientes        # Crear
-PUT    /api/pacientes/:id    # Actualizar
-DELETE /api/pacientes/:id    # Eliminar
-\`\`\`
-
-### Medicinas
-\`\`\`http
-GET    /api/medicinas        # Listar medicinas
-POST   /api/medicinas        # Crear medicina
-PUT    /api/medicinas/:id    # Actualizar
-DELETE /api/medicinas/:id    # Eliminar
-\`\`\`
-
-### Ventas
-\`\`\`http
-POST   /api/ventas           # Crear venta
-GET    /api/ventas           # Listar ventas
-GET    /api/ventas/:id       # Detalles venta
-\`\`\`
-
----
-
-## 💻 Ejemplo de Uso
-
-### Login
-\`\`\`bash
-curl -X POST http://localhost:3000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "usuario@example.com",
-    "password": "contraseña123"
-  }'
-\`\`\`
-
-### Crear Venta
-\`\`\`bash
-curl -X POST http://localhost:3000/api/ventas \
-  -H "Authorization: Bearer tu_token" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "paciente_id": 1,
-    "detalles": [{"medicina_id": 5, "cantidad": 2, "precio": 50000}]
-  }'
-\`\`\`
-
----
-
-## 🗄️ Base de Datos
-
-\`\`\`
-PACIENTES (id, nombre, cedula, email, telefono, direccion)
-MEDICINAS (id, nombre, descripcion, precio, stock, categoria)
-VENTAS (id, paciente_id, fecha, total, vendedor_id)
-VENTA_DETALLES (id, venta_id, medicina_id, cantidad, subtotal)
-\`\`\`
-
----
-
 ## 🔐 Autenticación
 
-Todos los endpoints protegidos requieren:
-
-\`\`\`http
-Authorization: Bearer tu_token_jwt_aqui
-\`\`\`
-
+Todos los endpoints protegidos requieren: **Authorization: Bearer tu_token_jwt_aqui**
 ### Roles disponibles
 - **Admin**: Acceso total
 - **Vendedor**: Gestión de ventas e inventario
 - **Paciente**: Consulta de historial
-
----
-
-## 💡 Flujo Completo en JavaScript
-
-\`\`\`javascript
-const API = 'http://localhost:3000/api';
-let token = '';
-
-// 1. Login
-const login = async () => {
-  const res = await fetch(`${API}/auth/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      email: 'usuario@example.com',
-      password: 'contraseña123'
-    })
-  });
-  const data = await res.json();
-  token = data.token;
-};
-
-// 2. Obtener medicinas
-const getMedicinas = async () => {
-  const res = await fetch(`${API}/medicinas`, {
-    headers: { 'Authorization': `Bearer ${token}` }
-  });
-  return res.json();
-};
-
-// 3. Crear venta
-const crearVenta = async () => {
-  const res = await fetch(`${API}/ventas`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      paciente_id: 1,
-      detalles: [{ medicina_id: 5, cantidad: 2, precio: 50000 }]
-    })
-  });
-  return res.json();
-};
-
-// Ejecutar
-await login();
-await getMedicinas();
-await crearVenta();
-\`\`\`
-
----
 
 ## 🐛 Solución de Problemas
 
